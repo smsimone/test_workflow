@@ -1,0 +1,27 @@
+name: test_deploy
+
+# Controls when the workflow will run
+on:
+  release:
+    types: [published]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Extract version
+        id: extract_version
+        run: |
+          VERSION=$(echo "$REF" | awk -F '/' '{print $NF}')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        env:
+          REF: ${{ github.ref }}
+
+      - name: foobar
+        run: |
+            echo "Versione estratta: $VERSION"
+        env:
+            VERSION: ${{ steps.extract_version.outputs.version }}
+        
