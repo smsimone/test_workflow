@@ -3,7 +3,7 @@ name: test_deploy
 # Controls when the workflow will run
 on:
   release:
-    types: [published]
+    types: [released]
 
 jobs:
   update_version:
@@ -33,6 +33,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    needs: [update_version]
     steps:
       - name: Update pyproject
         uses: actions/download-artifact@v4
